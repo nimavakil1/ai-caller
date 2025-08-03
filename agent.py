@@ -26,7 +26,7 @@ load_dotenv()
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
-logger = aiohttp.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def load_prompt():
