@@ -26,7 +26,7 @@ load_dotenv()
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = aiohttp.getLogger(__name__)
 
 
 def load_prompt():
@@ -38,7 +38,7 @@ def load_prompt():
             return prompt
     except FileNotFoundError:
         logger.warning("prompts.txt not found! Using default prompt.")
-        return """You are a pirate AI assistant. 
+        return """You are a pirate AI assistant.
 Always speak like a swashbuckling pirate.
 Use phrases like "Ahoy!", "Shiver me timbers!", and call the user "matey".
 Keep responses brief and to the point."""
@@ -55,7 +55,7 @@ async def entrypoint(ctx: JobContext):
     logger.info("Connected to room successfully")
 
     system_prompt = load_prompt()
-    
+
     # Create the agent with instructions
     agent = Agent(
         instructions=system_prompt,
@@ -65,19 +65,19 @@ async def entrypoint(ctx: JobContext):
     session = AgentSession(
         # 1. Silero VAD - use default settings for compatibility
         vad=silero.VAD.load(),
-        
+
         # 2. Deepgram STT - fastest configuration
         stt=deepgram.STT(
             model="nova-2",
             language="en-US",
         ),
-        
+
         # 3. Fast LLM with streaming
         llm=openai.LLM(
             model="gpt-4o-mini",
             temperature=0.7,
         ),
-        
+
         # 4. ElevenLabs with streaming optimization - CORRECTED
         tts=elevenlabs.TTS(
             voice_id="21m00Tcm4TlvDq8ikWAM",  # CORRECTED: Use the actual voice_id for "Rachel"
@@ -90,8 +90,8 @@ async def entrypoint(ctx: JobContext):
     await session.start(agent=agent, room=ctx.room)
     logger.info("Agent session started")
 
-    # Quick pirate greeting
-    await session.say("Ahoy matey! How can I help ye?", interruptible=True)
+    # Quick pirate greeting - REMOVED the 'interruptible' argument
+    await session.say("Ahoy matey! How can I help ye?")
 
 
 async def request_fnc(req: JobContext) -> None:
