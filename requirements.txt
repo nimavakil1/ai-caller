@@ -3,3 +3,4 @@ livekit-agents
 livekit-plugins-openai
 livekit-plugins-elevenlabs
 python-dotenv
+livekit-plugins-cartesia
