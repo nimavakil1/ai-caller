@@ -53,7 +53,7 @@ async def entrypoint(ctx: JobContext):
         llm=openai.LLM(
             model="gpt-4o-mini",              # Optimized for speed
             temperature=0.7,
-            max_tokens=100,                   # Limit response length
+            max_tokens=150,                   # Limit response length
             stream=True                       # Enable streaming
         ),
         
